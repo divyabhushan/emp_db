@@ -1,0 +1,109 @@
+{
+  "version": 2,
+  "tables": [
+    {
+      "table": {
+        "schema": "public",
+        "name": "department"
+      },
+      "object_relationships": [
+        {
+          "name": "empDept",
+          "using": {
+            "manual_configuration": {
+              "remote_table": {
+                "schema": "public",
+                "name": "employee"
+              },
+              "column_mapping": {
+                "dept_id": "dept_id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "docs"
+      }
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "employee"
+      },
+      "object_relationships": [
+        {
+          "name": "empDept",
+          "using": {
+            "manual_configuration": {
+              "remote_table": {
+                "schema": "public",
+                "name": "department"
+              },
+              "column_mapping": {
+                "dept_id": "dept_id"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "remote_schemas": [
+    {
+      "name": "employee_db",
+      "definition": {
+        "url": "https://hasura-sample-remote-schema.glitch.me/",
+        "timeout_seconds": 60
+      }
+    }
+  ],
+  "actions": [
+    {
+      "name": "actionName",
+      "definition": {
+        "handler": "http://host.docker.internal:3000",
+        "output_type": "SampleOutput",
+        "arguments": [
+          {
+            "name": "arg1",
+            "type": "SampleInput!"
+          }
+        ],
+        "type": "mutation",
+        "kind": "synchronous"
+      }
+    }
+  ],
+  "custom_types": {
+    "input_objects": [
+      {
+        "name": "SampleInput",
+        "fields": [
+          {
+            "name": "username",
+            "type": "String!"
+          },
+          {
+            "name": "password",
+            "type": "String!"
+          }
+        ]
+      }
+    ],
+    "objects": [
+      {
+        "name": "SampleOutput",
+        "fields": [
+          {
+            "name": "accessToken",
+            "type": "String!"
+          }
+        ]
+      }
+    ]
+  }
+}
